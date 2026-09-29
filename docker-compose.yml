@@ -1,0 +1,23 @@
+services:
+  web-app:
+    build: .
+    image: cloud-native-app:v1
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_HOST=redis-db
+    depends_on:
+      - redis-db
+    networks:
+      - cloud-net
+
+  redis-db:
+    image: hub.rat.dev/library/redis:7.0-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - cloud-net
+
+networks:
+  cloud-net:
+    driver: bridge
